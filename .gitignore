@@ -1,0 +1,15 @@
+# IntelliJ IDEA
+.idea/
+
+# Compiled bytecode
+out/
+
+# IDE-specific files
+*.iml
+
+# User-specific files
+*.iws
+*.ipr
+*.iws
+*.iws
+*.ids
