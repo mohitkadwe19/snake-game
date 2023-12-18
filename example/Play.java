@@ -11,8 +11,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 
 /**
- *
- *
+ * The main game class for the snake game.
+ * Handles game state and rendering the game elements.
  */
 public class Play extends MyFrame {
 
@@ -38,6 +38,14 @@ public class Play extends MyFrame {
 
 	public static int game_change = 0;
 
+	private int highScore = 0;
+
+	/**
+	 * Handles keyboard input to change
+	 * the direction of the snake.
+	 *
+	 * @param e the KeyEvent triggered
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		super.keyPressed(e);
@@ -73,16 +81,45 @@ public class Play extends MyFrame {
 		 drawScore(g);
 	}
 
+	/**
+	 * Restarts the game by resetting the snake
+	 * and clearing previous body points.
+	 */
+
 	public void restart() {
 		mySnake = new MySnake(100, 100);
 		mySnake.changeLength(1);  // Reset the length of the snake
 		mySnake.bodyPoints.clear();  // Clear the list of body points
 	}
 
+	/**
+	 * Draws the current score and high score
+	 * on the screen.
+	 *
+	 * @param g the Graphics object to draw with
+	 */
 	public void drawScore(Graphics g) {
 		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
 		g.setColor(Color.MAGENTA);
 		g.drawString("SCORE : " + mySnake.score, 20, 40);
+
+		// Display the high score
+		g.setColor(Color.CYAN);
+		g.drawString("HIGH SCORE : " + highScore, 300, 40);
+
+		if (!mySnake.l) {
+			updateHighScore();
+		}
+	}
+
+	/**
+	 * Updates the high score if the current
+	 * score is higher.
+	 */
+	public void updateHighScore() {
+		if (mySnake.score > highScore) {
+			highScore = mySnake.score;
+		}
 	}
 
 	public void drawStartButton(Graphics g) {
@@ -110,6 +147,7 @@ public class Play extends MyFrame {
 				if (!play.mySnake.l && e.getX() >= 410 && e.getX() <= 410 + play.restartGame.getWidth(null)
 						&& e.getY() >= 250 && e.getY() <= 250 + play.restartGame.getHeight(null)) {
 					play.restart();
+					play.updateHighScore();
 				}
 			}
 		});
